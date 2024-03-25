@@ -1,1 +1,4 @@
-export const environment = {};
+export const environment = {
+  //TMDB_API_KEY: '798865d2515c75e1f2966a2ca026c110'
+  TMDB_API_KEY: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3OTg4NjVkMjUxNWM3NWUxZjI5NjZhMmNhMDI2YzExMCIsInN1YiI6IjYwMDBiMzI2NmQ5N2U2MDAzYzE5MzkyMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mTglxOg2hfNgrOrCr3BpB5Ei4OMmzQ-E6aX1pV3WmpI'
+};

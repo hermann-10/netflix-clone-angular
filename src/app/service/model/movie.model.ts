@@ -1,4 +1,4 @@
-export interface MovieData {
+export interface MovieApiResponse {
   page: number;
   results: Movie[];
   total_pages: number;
@@ -22,3 +22,14 @@ export interface Movie {
   vote_average: number;
   vote_count: number;
 }
+
+export type Genre = {
+  id: number;
+  name: string;
+};
+
+export type Genres = Genre[];
+
+export type ApiGenreResponse = {
+  genres: Genres;
+};
