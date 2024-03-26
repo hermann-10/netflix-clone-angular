@@ -1,9 +1,9 @@
 @if (trendMovie){
 
   <div class="main w-100 m-0 p-0 d-flex justify-content-start align-items-center"
-  [style.background-image]="'url(' + tmdbService.getImageUrl(trendMovie.poster_path!, 'original') +')'">
+  [style.background-image]="'url(' + tmdbService.getImageURL(trendMovie.poster_path!, 'original') + ')'">
 
-    <div class="ms-5 d-flex flex-column justify-content-start align-items-start w-25">
+    <div class="ms-5 d-flex flex-column justify-content-start align-items-start w-50">
       <h1>{{trendMovie.title}}</h1>
       <div class="fs-5 text-white overflow-scroll overview">
         {{trendMovie.overview}}

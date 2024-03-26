@@ -29,8 +29,7 @@ export class MainContentComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.tmdbService.getGenres().subscribe((genres) => (this.genres = genres));
-
+    //this.tmdbService.getGenres().subscribe((genres) => (this.genres = genres));
     this.fetchMovieTrends();
   }
 

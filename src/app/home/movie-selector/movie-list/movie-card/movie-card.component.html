@@ -1,0 +1,8 @@
+@if (movie) {
+  <div class="me-2 movie"
+        [style.background-image]="'url(' + this.tmdbService.getImageURL(movie.poster_path!, 'w200') +')'">
+    <div class="placeholder-poster">
+
+    </div>
+  </div>
+}
