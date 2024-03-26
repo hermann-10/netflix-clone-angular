@@ -38,6 +38,12 @@ export class TmdbService {
 
   moviesById = computed(() => this.movieById$());
 
+  private search$: WritableSignal<State<MovieApiResponse, HttpErrorResponse>>
+  = signal(State.Builder<MovieApiResponse, HttpErrorResponse>().forInit().build());
+
+  search = computed(() => this.search$());
+
+  constructor() { }
 
   getHeaders(): HttpHeaders {
     return new HttpHeaders().set('Authorization', `Bearer ${environment.TMDB_API_KEY}`);
@@ -127,5 +133,26 @@ export class TmdbService {
     moreInfoModal.componentInstance.movieId = movieId;
    }
 
-  constructor() { }
+
+   searchByTerm(term: string): void{
+    let queryParam: HttpParams = new HttpParams();
+    queryParam = queryParam.set("language", "en-US");
+    queryParam = queryParam.set("query", term);
+
+    this.http.get<MovieApiResponse>(
+      `${this.baseURL}/3/search/movie`, {headers: this.getHeaders(), params: queryParam})
+      .subscribe({
+        next: searchByTerm => {
+          this.search$
+            .set(State.Builder<MovieApiResponse, HttpErrorResponse>()
+              .forSuccess(searchByTerm).build())
+      },
+        error: err => {
+          this.search$
+            .set(State.Builder<MovieApiResponse, HttpErrorResponse>()
+              .forError(err).build())
+        }
+      });
+   }
+
 }
