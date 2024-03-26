@@ -1,10 +1,12 @@
 import { Injectable, inject, signal, WritableSignal, computed } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { MovieApiResponse } from './model/movie.model';
+import { Movie, MovieApiResponse } from './model/movie.model';
 import { State } from './model/state.model';
 import { environment } from '../../environments/environment.development';
 import { map } from 'rxjs';
 import { GenresResponse } from './model/genre.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MoreInfosComponent } from '../home/more-infos/more-infos.component';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,8 @@ import { GenresResponse } from './model/genre.model';
 export class TmdbService {
 
   http: HttpClient = inject(HttpClient);
+
+  modalService = inject(NgbModal);
 
   baseURL: string = 'http://api.themoviedb.org';
 
@@ -29,7 +33,13 @@ export class TmdbService {
 
   moviesByGenre = computed(() => this.moviesByGenre$());
 
-   getHeaders(): HttpHeaders {
+  private movieById$: WritableSignal<State<Movie, HttpErrorResponse>>
+  = signal(State.Builder<Movie, HttpErrorResponse>().forInit().build());
+
+  moviesById = computed(() => this.movieById$());
+
+
+  getHeaders(): HttpHeaders {
     return new HttpHeaders().set('Authorization', `Bearer ${environment.TMDB_API_KEY}`);
   }
 
@@ -91,6 +101,31 @@ export class TmdbService {
       });
   }
 
+
+  getMovieById(id: number):void{
+    this.http.get<Movie>(
+      `${this.baseURL}/3/movie/${id}`, {headers: this.getHeaders()})
+      .subscribe({
+        next: movieResponse => {
+          this.movieById$
+            .set(State.Builder<Movie, HttpErrorResponse>()
+              .forSuccess(movieResponse).build())
+      },
+        error: err => {
+          this.movieById$
+            .set(State.Builder<Movie, HttpErrorResponse>()
+              .forError(err).build())
+        }
+      });
+  }
+
+  clearGetMovieById(){
+    this.movieById$.set(State.Builder<Movie, HttpErrorResponse>().forInit().build());
+  }
+   openMoreInfos(movieId: number): void{
+    let moreInfoModal = this.modalService.open(MoreInfosComponent);
+    moreInfoModal.componentInstance.movieId = movieId;
+   }
 
   constructor() { }
 }

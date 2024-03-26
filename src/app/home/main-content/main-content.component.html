@@ -15,7 +15,7 @@
         </a>
         <a class="btn btn-lg  btn-light d-flex align-items-center px-4 py-2">
           <fa-icon class="me-3" icon="circle-info" size="2x"></fa-icon>
-          <div>More info</div>
+          <div (click)="tmdbService.openMoreInfos(trendMovie.id)">More info</div>
         </a>
       </div>
     </div>
